@@ -35,7 +35,6 @@ export default function() {
         }
       ]
     }
-
   });
 
   this.get('/api/v1/advisors/2/clients', function() {
