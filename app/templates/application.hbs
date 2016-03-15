@@ -1,3 +1,11 @@
-<h2 id="title">Welcome to Ember</h2>
-
+<h2 id="title">Welcome to Ember{{#if currentAdvisor}}, {{currentAdvisor.name}}{{/if}}</h2>
+{{#if currentAdvisorClients.length}}
+  <div style="background: #ccc; padding: 20px;">
+    <ul>
+      {{#each currentAdvisorClients as |client|}}
+      <li>{{client.name}}</li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
 {{outlet}}
