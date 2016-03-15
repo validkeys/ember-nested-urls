@@ -1,74 +1,36 @@
+const { extend } = _;
+
 export default function() {
 
-  this.get('/api/v1/advisors', function() {
+  this.get('/api/v1/advisors', function(db) {
     return {
-      advisors: [
-        {
-          id: 1, name: "Advisor 1" ,
+      advisors: db.advisors.map((advisor) => {
+        return extend({}, advisor, {
           links: {
-            clients: "/api/v1/advisors/1/clients"
+            "clients": "/api/v1/advisors/" + advisor.id + "/clients"
           }
-        },
-        {
-          id: 2, name: "Advisor 2",
-          links: {
-            clients: "/api/v1/advisors/2/clients"
-          }
-        }
-      ],
+        })
+      })
     }
   });
 
-  this.get('/api/v1/advisors/1/clients', function() {
-
+  this.get('/api/v1/advisors/:advisorId', function(db, request) {
     return {
-      clients: [
-        {
-          id: 1,
-          name: "Client 1",
-          advisorId: 1
-        },
-        {
-          id: 2,
-          name: "Client 2",
-          advisorid: 1
-        }
-      ]
+      advisor: db.advisors.find(request.params.advisorId)
     }
   });
 
-  this.get('/api/v1/advisors/2/clients', function() {
-
+  this.get('/api/v1/advisors/:advisorId/clients', function(db, request) {
     return {
-      clients: [
-        {
-          id: 4,
-          name: "Client 4",
-          advisorId: 2
-        },
-        {
-          id: 5,
-          name: "Client 5",
-          advisorid: 2
-        }
-      ]
+      clients: db.clients.filter((item) => parseInt(item.advisorId) === parseInt(request.params.advisorId))
     }
-
   });
 
-
-  this.get('/api/v1/advisors/1/clients/3', function() {
-
+  this.get('/api/v1/advisors/:advisorId/clients/:clientId', function(db, request) {
     return {
-      client: {
-        id: 3,
-        name: "Client 3",
-        advisorId: 1
-      }
+      client: db.clients.find(request.params.clientId)
     }
-
   });
-
 
 }
 

@@ -3,7 +3,7 @@
   {{#each model as |client|}}
   <li>
     {{#link-to "advisors.advisor.clients.client" client.id}}
-      {{client.name}}
+      {{client.name}} <button {{action "save" client}}>Save</button>
     {{/link-to}}
   </li>
   {{/each}}

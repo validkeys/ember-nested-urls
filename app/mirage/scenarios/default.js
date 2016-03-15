@@ -1,7 +1,8 @@
-export default function(/* server */) {
+export default function(server) {
+  var advisors = server.createList('advisor', 10);
 
-  // Seed your development database using your factories. This
-  // data will not be loaded in your tests.
+  advisors.forEach((advisor) => {
+    server.createList('client', 10, { advisorId: advisor.id });
+  });
 
-  // server.createList('contact', 10);
 }
